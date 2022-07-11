@@ -5,7 +5,7 @@ FROM node:16.13.0-alpine
 # 작업을 수행할 디렉토리를 지정
 WORKDIR /frontend
 
-#현재 경로에 있는 것을 app으로 복사
+# 현재 경로에 있는 것을 frontend로 복사
 COPY . /frontend
 
 # 이미지가 빌드 될때 실행
