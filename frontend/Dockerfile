@@ -8,5 +8,12 @@ WORKDIR /frontend
 # 현재 경로에 있는 것을 frontend로 복사
 COPY . /frontend
 
+# npm 버전 5 이후로 --force를 붙여줘야 한다.
+# npm cache를 모조리 삭제
+RUN npm cache clean --force
+
+# yarn 설치
+RUN npm isntall yarn
+
 # 이미지가 빌드 될때 실행
-RUN npm install
+RUN yarn install

@@ -4,12 +4,14 @@ services:
   frontend:
     # Dockerfile의 경로
     build: ./frontend
-    command: ["npm", "start"]
+    command: ["yarn", "start"]
     ports:
-      - 3000:3000
+      - 80:3000
     # 연결할 외부 디렉토리 : 컨테이너 내 디렉토리(작업공간 frontend로 설정해줌 -> frontend/Dockerfile)
     volumes:
       - ./frontend:/frontend
+    # docker container 특성상 커맨드 끝나면 컨테이너가 종료되는데 이를 방지하기 위해 tty 옵션 추가
+    tty: true
 
   backend:
     # Dockerfile의 경로
