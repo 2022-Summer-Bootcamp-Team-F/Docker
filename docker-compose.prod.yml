@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  frontend:
+    # Dockerfile의 경로
+    build: ./frontend
+    # 연결할 외부 디렉토리 : 컨테이너 내 디렉토리(작업공간 frontend로 설정해줌 -> frontend/Dockerfile)
+    volumes:
+      - ./frontend:/frontend
+      - build_folder:/frontend/build
+    # docker container 특성상 커맨드 끝나면 컨테이너가 종료되는데 이를 방지하기 위해 tty 옵션 추가
+    tty: true
+
+  backend:
+    # Dockerfile의 경로
+    build: ./backend
+    command: gunicorn config.wsgi --bind 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend:/backend
+    expose:
+      - 8000
+  
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    volumes:
+      - build_folder:/var/www/frontend
+    depends_on:
+      - backend
+      - frontend
+
+# 컨테이너 내려도 데이터 유지되도록 함
+volumes:
+  build_folder: null
